@@ -1,12 +1,20 @@
-import * as THREE from 'three';
+import { AnimationAction, AnimationMixer, Vector3 } from 'three';
 import Experience from './Experience';
 import { GLTF } from 'three/examples/jsm/Addons.js';
 
 export default class Character {
     experience: Experience;
-    mixer: THREE.AnimationMixer | null = null;
-    actions: { [key: string]: THREE.AnimationAction } = {};
-    currentAction: THREE.AnimationAction | null = null;
+    mixer: AnimationMixer | null = null;
+    actions: { [key: string]: AnimationAction } = {};
+    currentAction: AnimationAction | null = null;
+    targetPosition!: Vector3;
+
+    characterModel !: GLTF;
+
+    leftPosition: Vector3 = new Vector3(-1, 0, 35)
+    centerPosition: Vector3 = new Vector3(0, 0, 35)
+    rightPosition: Vector3 = new Vector3(1, 0, 35)
+
 
     constructor() {
         this.experience = new Experience();
@@ -21,18 +29,21 @@ export default class Character {
         this.experience.resources.gltfloader.load('./models/Fox.glb', (gltfModel: GLTF) => {
             gltfModel.scene.scale.multiplyScalar(0.05);
             gltfModel.scene.rotation.y = Math.PI;
-            gltfModel.scene.position.set(0,0,35);
+            gltfModel.scene.position.set(0, 1, 35);
 
             this.experience.scene.add(gltfModel.scene);
 
             // Setup animation mixer
-            this.mixer = new THREE.AnimationMixer(gltfModel.scene);
+            this.mixer = new AnimationMixer(gltfModel.scene);
             gltfModel.animations.forEach((clip) => {
                 const action = this.mixer!.clipAction(clip);
                 this.actions[clip.name] = action;
             });
 
             this.playAnimation("Run")
+
+            this.characterModel = gltfModel;
+            this.targetPosition = this.characterModel.scene.position.clone();
 
         });
     }
@@ -50,11 +61,13 @@ export default class Character {
 
     update() {
         if (this.mixer) {
-            this.mixer.update(this.experience.time.delta * .001);
+            this.mixer.update(this.experience.time.delta * .003);
         }
+        this.characterModel.scene.position.lerp(this.targetPosition, 0.05); 
     }
 
     keydown(e: KeyboardEvent) {
+        console.log(e.code)
         switch (e.code) {
             case "Numpad0":
                 this.playAnimation("Survey")
@@ -64,6 +77,14 @@ export default class Character {
                 break;
             case "Numpad2":
                 this.playAnimation("Run")
+                break;
+            case "ArrowUp":
+                break;
+            case "ArrowLeft":
+                if( this.targetPosition.x > -5 ) this.targetPosition.x -= 5;
+                break;
+            case "ArrowRight":
+                if( this.targetPosition.x < 5 ) this.targetPosition.x += 5;
                 break;
         }
     }

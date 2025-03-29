@@ -28,12 +28,12 @@ export default class Ground {
             rows: 20,
             cols: 20,
             boxGeometryDimensions: new Vector3(5, 1, 5),
-            boxGeometrySmmothing: 2,
+            boxGeometrySmmothing: 1,
             boxGeometryRadius: .1,
             boxSpacing: 1.05,
             grroundSpeed: .5,
             treeIntesity: .1 , 
-            groundVelocity : new Vector3( 0 , 0 , .1 ) 
+            groundVelocity : new Vector3( 0 , 0 , .3 ) 
         }
 
         const boxGeometry = new RoundedBoxGeometry(

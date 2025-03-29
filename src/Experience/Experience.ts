@@ -7,7 +7,6 @@ import Environment from "./Envrionment";
 import Eventlisteners from "./Eventlistners";
 import Resources from "./Resources";
 import World from "./World";
-import { Pane } from "tweakpane";
 
 export default class Experience {
 	static instance: Experience;
@@ -19,7 +18,6 @@ export default class Experience {
 	renderer !: Renderer ; 
 	resources !: Resources ; 
 	world!: World ; 
-	pane !: Pane ; 
 
 	scene !: Scene ;
 	envrionment !: Environment ; 
@@ -37,7 +35,6 @@ export default class Experience {
 		this.time = new Time(); 
 		this.sizes = new Sizes(this.canvas); 
 		this.eventlistners = new Eventlisteners() ;
-		this.pane = new Pane() ; 
 		this.camera = new Camera() ; 
 		this.renderer = new Renderer() ;
 		this.envrionment = new Environment() ;
