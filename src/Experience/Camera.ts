@@ -9,9 +9,9 @@ export default class Camera {
     public controls !: OrbitControls;
 
     cameraDefaultPos: Vector3 = new Vector3(2.5, 6, 52);
-    cameraTarget: Vector3 = new Vector3(0,10,0);
+    cameraTarget: Vector3 = new Vector3(0, 10, 0);
 
-    acctiveCamera !: PerspectiveCamera | OrthographicCamera ; 
+    acctiveCamera !: PerspectiveCamera | OrthographicCamera;
 
     constructor() {
         this.experince = new Experience();
@@ -24,12 +24,27 @@ export default class Camera {
     }
 
     private createPerspectiveCamera() {
-        this.perspectiveCamera = new PerspectiveCamera(75, this.experince.sizes.aspectRatio, 0.1, 1000);
-        this.perspectiveCamera.position.copy(this.cameraDefaultPos);
-        this.perspectiveCamera.rotation.y += .01 ; 
-        this.controls = new OrbitControls(this.perspectiveCamera, this.experince.canvas);
-        this.acctiveCamera = this.perspectiveCamera ; 
-        this.controls.enabled = false ;
+        const cam = new PerspectiveCamera(
+            75,
+            this.experince.sizes.aspectRatio,
+            1,
+            90
+        );
+
+        // Set the camera position
+        cam.position.set(0,10,50);
+
+        const target = new Vector3(0, 5, 0); 
+        cam.lookAt(target);
+
+        // Add the camera to the scene
+        this.experince.scene.add(cam);
+
+        // // Add a helper to visualize the camera
+        // const helper = new CameraHelper(cam);
+        // this.experince.scene.add(helper);
+        this.perspectiveCamera = cam ; 
+        this.acctiveCamera = this.perspectiveCamera
     }
 
 
@@ -45,7 +60,7 @@ export default class Camera {
     // }
 
     update() {
-        this.controls.update();
+        // this.controls.update();
     }
 
     keydown(e: KeyboardEvent) {
@@ -53,11 +68,11 @@ export default class Camera {
             this.perspectiveCamera.position.copy(this.cameraDefaultPos);
             this.controls.target.copy(this.cameraTarget);
         }
-        if( e.code == 'KeyP'){
-            this.acctiveCamera = this.perspectiveCamera ; 
+        if (e.code == 'KeyP') {
+            this.acctiveCamera = this.perspectiveCamera;
         }
-        if( e.code == 'KeyO'){
-            this.acctiveCamera = this.orthographicCamera ; 
+        if (e.code == 'KeyO') {
+            this.acctiveCamera = this.orthographicCamera;
         }
     }
 

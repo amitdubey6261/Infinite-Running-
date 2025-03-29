@@ -44,7 +44,7 @@ export default class Ground {
             groundUniforms.boxGeometryRadius
         );
 
-        boxGeometry.translate(0, groundUniforms.boxGeometryDimensions.y / 2, 0);
+        boxGeometry.translate(-2.5, groundUniforms.boxGeometryDimensions.y / 2, 0);
         boxGeometry.computeBoundingBox();
         boxGeometry.computeVertexNormals();
         const boxMaterial = new MeshStandardMaterial();
@@ -116,7 +116,7 @@ export default class Ground {
         
                     // Add tree at this position
                     const treeY = y + 1.7; // offset so tree is above the box
-                    dummyObject.position.set(x, treeY, z);
+                    dummyObject.position.set(x - 2.5, treeY, z);
                     dummyObject.updateMatrix();
                     sceneTrees.setMatrixAt(treeIdx, dummyObject.matrix);
                     treeIdx++;

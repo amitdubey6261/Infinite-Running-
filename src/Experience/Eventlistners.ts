@@ -25,7 +25,7 @@ export default class Eventlisteners{
     }
 
     keydown(event: KeyboardEvent){
-        this.experince.camera.keydown(event); 
+        // this.experince.camera.keydown(event); 
         this.experince.world.character.keydown(event);
     }
 

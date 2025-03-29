@@ -21,7 +21,7 @@ export default class Character {
         this.experience.resources.gltfloader.load('./models/Fox.glb', (gltfModel: GLTF) => {
             gltfModel.scene.scale.multiplyScalar(0.05);
             gltfModel.scene.rotation.y = Math.PI;
-            gltfModel.scene.position.set(2.5,1.2,45);
+            gltfModel.scene.position.set(0,0,35);
 
             this.experience.scene.add(gltfModel.scene);
 
